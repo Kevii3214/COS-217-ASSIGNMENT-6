@@ -1,6 +1,6 @@
-/* produces a file called dataA with the student name, a null byte,
+/* Produces a file called dataA with the student name, a null byte,
    padding to overrun the stack, and shellcode that sets grade='A'
-   followed by a branch back to main. the return address is 
+   followed by a branch back to main. The return address is 
    overwritten to point to the shellcode in the name array. */
 
 #include <stdio.h>
