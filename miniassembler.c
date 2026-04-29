@@ -1,20 +1,20 @@
-/*--------------------------------------------------------------------*/
-/* miniassembler.c                                                    */
-/* Author: Bob Dondero, Donna Gabai                                   */
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
+/* miniassembler.c                                                  */
+/* Author: Bob Dondero, Donna Gabai                                 */
+/*------------------------------------------------------------------*/
 
 #include "miniassembler.h"
 #include <assert.h>
 #include <stddef.h>
 
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 /* Modify *puiDest in place,
    setting uiNumBits starting at uiDestStartBit (where 0 indicates
    the least significant bit) with bits taken from uiSrc,
    starting at uiSrcStartBit.
    uiSrcStartBit indicates the rightmost bit in the field.
    setField sets the appropriate bits in *puiDest to 1.
-   setField never unsets any bits in *puiDest.                        */
+   setField never unsets any bits in *puiDest.                      */
 static void setField(unsigned int uiSrc, unsigned int uiSrcStartBit,
                      unsigned int *puiDest, unsigned int uiDestStartBit,
                      unsigned int uiNumBits)
@@ -33,7 +33,7 @@ static void setField(unsigned int uiSrc, unsigned int uiSrcStartBit,
 
 }
 
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 
 unsigned int MiniAssembler_mov(unsigned int uiReg, int iImmed)
 {
@@ -52,7 +52,7 @@ unsigned int MiniAssembler_mov(unsigned int uiReg, int iImmed)
 
 }
 
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 
 unsigned int MiniAssembler_adr(unsigned int uiReg, unsigned long ulAddr,
    unsigned long ulAddrOfThisInstr)
@@ -75,7 +75,7 @@ unsigned int MiniAssembler_adr(unsigned int uiReg, unsigned long ulAddr,
    return uiInstr;
 }
 
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 
 unsigned int MiniAssembler_strb(unsigned int uiFromReg,
    unsigned int uiToReg)
@@ -95,7 +95,7 @@ unsigned int MiniAssembler_strb(unsigned int uiFromReg,
 
 }
 
-/*--------------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 
 unsigned int MiniAssembler_b(unsigned long ulAddr,
    unsigned long ulAddrOfThisInstr)
