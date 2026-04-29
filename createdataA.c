@@ -26,18 +26,18 @@ int main(void) {
     /* write null terminator */
     fputc('\0', fp);
     
-    /* generate shellcode instructions */
-    /* instruction 1: adr x0, 0x420044 (load grade address) */
-    instr1 = MiniAssembler_adr(0, 0x420044, 0x42005e);
-    
-    /* instruction 2: mov w1, #0x41 (load 'A') */
+    /* generate shellcode instructions using literal addresses */
+    /* use adr with a closer target to avoid negative displacement */
+    /* instruction 1: adr x0, 0x42005e */
+    instr1 = MiniAssembler_adr(0, 0x42005e, 0x42005e);  
+
+    /* instruction 2: mov w1, #0x41 (load 'A') */  
     instr2 = MiniAssembler_mov(1, 0x41);
-    
-    /* instruction 3: strb w1, [x0] (store 'A' at grade) */
-    instr3 = MiniAssembler_strb(1, 0);
-    
-    /* instruction 4: b 0x40089c (branch back to main+64) */
-    instr4 = MiniAssembler_b(0x40089c, 0x42006a);
+
+    /* then we'll manually set the grade address and store */
+    /* for now, let's just try a simple mov and branch */
+    instr3 = MiniAssembler_mov(2, 0);  /* mov w2, #0 - simple test */
+    instr4 = MiniAssembler_mov(3, 0);  /* mov w3, #0 - simple test */
     
     /* write shellcode bytes (instructions 1-4, 16 bytes total) */
     bytes = (unsigned char *)&instr1;
