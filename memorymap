@@ -114,24 +114,24 @@ Address     Description
 0x42005b    name[3] - 'i'
 0x42005c    name[4] - 'n'
 0x42005d    name[5] - '\0' (null terminator)
-0x42005e    name[6] - first byte of adrp x0, 0x420000
-0x42005f    name[7] - second byte of adrp x0, 0x420000
-0x420060    name[8] - third byte of adrp x0, 0x420000
-0x420061    name[9] - fourth byte of adrp x0, 0x420000
-0x420062    name[10] - first byte of mov w1, #0x41
-0x420063    name[11] - second byte of mov w1, #0x41
-0x420064    name[12] - third byte of mov w1, #0x41
-0x420065    name[13] - fourth byte of mov w1, #0x41
-0x420066    name[14] - first byte of strb w1, [x0, #68]
-0x420067    name[15] - second byte of strb w1, [x0, #68]
-0x420068    name[16] - third byte of strb w1, [x0, #68]
-0x420069    name[17] - fourth byte of strb w1, [x0, #68]
-0x42006a    name[18] - first byte of b 0x40089c
-0x42006b    name[19] - second byte of b 0x40089c
-0x42006c    name[20] - third byte of b 0x40089c
-0x42006d    name[21] - fourth byte of b 0x40089c
-0x42006e    name[22] - padding
-0x42006f    name[23] - padding
+0x42005e    name[6] - alignment padding
+0x42005f    name[7] - alignment padding
+0x420060    name[8] - first byte of adr x0, 0x420044
+0x420061    name[9] - second byte of adr x0, 0x420044
+0x420062    name[10] - third byte of adr x0, 0x420044
+0x420063    name[11] - fourth byte of adr x0, 0x420044
+0x420064    name[12] - first byte of mov w1, #0x41
+0x420065    name[13] - second byte of mov w1, #0x41
+0x420066    name[14] - third byte of mov w1, #0x41
+0x420067    name[15] - fourth byte of mov w1, #0x41
+0x420068    name[16] - first byte of strb w1, [x0]
+0x420069    name[17] - second byte of strb w1, [x0]
+0x42006a    name[18] - third byte of strb w1, [x0]
+0x42006b    name[19] - fourth byte of strb w1, [x0]
+0x42006c    name[20] - first byte of b 0x40089c
+0x42006d    name[21] - second byte of b 0x40089c
+0x42006e    name[22] - third byte of b 0x40089c
+0x42006f    name[23] - fourth byte of b 0x40089c
 0x420070    name[24] - padding
 0x420071    name[25] - padding
 0x420072    name[26] - padding
