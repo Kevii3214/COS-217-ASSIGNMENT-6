@@ -1,16 +1,16 @@
-/* Produces a file called dataA with the student name, a null byte,
-padding to overrun the stack, and shellcode that sets grade='A'
-followed by a branch back to main. The return address is overwritten
-to point to the shellcode in the name array. */
+/* produces a file called dataA with the student name, a null byte,
+   padding to overrun the stack, and shellcode that sets grade='A'
+   followed by a branch back to main. the return address is 
+   overwritten to point to the shellcode in the name array. */
 
 #include <stdio.h>
 #include <stdint.h>
 #include "miniassembler.h"
 
-/* Writes binary data to dataA file to exploit buffer overflow.
-Takes no command line arguments, reads nothing from stdin,
-writes attack data to dataA file, writes nothing to stdout,
-returns 0 on success. */
+/* writes binary data to dataA file to exploit buffer overflow.
+   takes no command line arguments, reads nothing from stdin,
+   writes attack data to dataA file, writes nothing to stdout,
+   returns 0 on success. */
 int main(void) {
     FILE *fp;
     int i;
