@@ -1,18 +1,22 @@
+/*------------------------------------------------------------------*/
+/* createdataB.c                                                    */
+/* Author: Kevin Tran                                               */
+/*------------------------------------------------------------------*/
 /*
- * Produces a file called dataB with the student name, a null byte, 
- * padding to overrun the stack, and the address of the instruction 
- * in main to get a B, the latter of which will overwrite getName's 
- * stored x30.
+Produces a file called dataB with the student name, a null byte, 
+padding to overrun the stack, and the address of the instruction 
+in main to get a B, the latter of which will overwrite getName's 
+stored x30.
  */
 
 #include <stdio.h>
 #include <stdint.h>
 
 /*
- * Writes binary data to dataB file to exploit buffer overflow.
- * Takes no command line arguments, reads nothing from stdin,
- * writes attack data to dataB file, writes nothing to stdout,
- * returns 0 on success.
+Writes binary data to dataB file to exploit buffer overflow.
+Takes no command line arguments, reads nothing from stdin,
+writes attack data to dataB file, writes nothing to stdout,
+returns 0 on success.
  */
 int main(void) {
     FILE *fp;

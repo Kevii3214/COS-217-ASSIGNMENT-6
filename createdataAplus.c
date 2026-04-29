@@ -1,3 +1,7 @@
+/*------------------------------------------------------------------*/
+/* createdataAplus.c                                                */
+/* Author: Kevin Tran                                               */
+/*------------------------------------------------------------------*/
 /* Produces a file called dataAplus that causes the grader to output
 "A+ is your grade." The attack works by overflowing the name buffer
 to overwrite getName's saved x30 with the address of shellcode
