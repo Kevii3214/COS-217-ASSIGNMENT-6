@@ -19,7 +19,17 @@ static void setField(unsigned int uiSrc, unsigned int uiSrcStartBit,
                      unsigned int *puiDest, unsigned int uiDestStartBit,
                      unsigned int uiNumBits)
 {
-   /* Your code here */
+   unsigned int mask;
+   unsigned int field;
+   
+   /* create mask with uiNumBits set to 1 */
+   mask = (1U << uiNumBits) - 1;
+   
+   /* extract field from source, shift it to start at bit 0 */
+   field = (uiSrc >> uiSrcStartBit) & mask;
+   
+   /* shift field to destination position and OR it in */
+   *puiDest |= (field << uiDestStartBit);
 
 }
 
@@ -27,7 +37,18 @@ static void setField(unsigned int uiSrc, unsigned int uiSrcStartBit,
 
 unsigned int MiniAssembler_mov(unsigned int uiReg, int iImmed)
 {
-   /* Your code here */
+   unsigned int uiInstr;
+   
+   /* Base instruction: mov w-register, immediate */
+   uiInstr = 0x52800000;
+   
+   /* Insert register number (bits 0-4) */
+   setField(uiReg, 0, &uiInstr, 0, 5);
+   
+   /* Insert immediate value (bits 5-20) */
+   setField((unsigned int)iImmed, 0, &uiInstr, 5, 16);
+   
+   return uiInstr;
 
 }
 
@@ -59,7 +80,18 @@ unsigned int MiniAssembler_adr(unsigned int uiReg, unsigned long ulAddr,
 unsigned int MiniAssembler_strb(unsigned int uiFromReg,
    unsigned int uiToReg)
 {
-   /* Your code here */
+   unsigned int uiInstr;
+   
+   /* base instruction: strb w-reg, [x-reg] */
+   uiInstr = 0x39000000;
+   
+   /* insert source register (bits 0-4) */
+   setField(uiFromReg, 0, &uiInstr, 0, 5);
+   
+   /* insert destination register (bits 5-9) */
+   setField(uiToReg, 0, &uiInstr, 5, 5);
+   
+   return uiInstr;
 
 }
 
@@ -68,6 +100,18 @@ unsigned int MiniAssembler_strb(unsigned int uiFromReg,
 unsigned int MiniAssembler_b(unsigned long ulAddr,
    unsigned long ulAddrOfThisInstr)
 {
-   /* Your code here */
+   unsigned int uiInstr;
+   unsigned int uiDisp;
+   
+   /* base instruction: unconditional branch */
+   uiInstr = 0x14000000;
+   
+   /* calculate displacement in words (divide by 4) */
+   uiDisp = (unsigned int)((ulAddr - ulAddrOfThisInstr) / 4);
+   
+   /* insert 26-bit displacement (bits 0-25) */
+   setField(uiDisp, 0, &uiInstr, 0, 26);
+   
+   return uiInstr;
 
 }

